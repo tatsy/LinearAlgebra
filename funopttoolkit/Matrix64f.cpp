@@ -20,6 +20,15 @@ Matrix64f::Matrix64f(int rows, int cols) :
     data = new double[rows * cols];
 }
 
+Matrix64f::Matrix64f(double* data_, int rows, int cols) :
+    nrows(rows),
+    ncols(cols),
+    data(0)
+{
+    data = new double[nrows * ncols];
+    memcpy(data, data_, sizeof(double) * nrows * ncols);
+}
+
 Matrix64f::Matrix64f(const Matrix64f& m) :
     nrows(m.nrows),
     ncols(m.ncols),

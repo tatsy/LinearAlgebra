@@ -7,7 +7,7 @@ namespace funopt {
     class Vector64f;
     class Matrix64f;
 
-    void factor_lu(Matrix64f& A, Matrix64f& LU);
+    void factor_lu(Matrix64f& A, Matrix64f& LU, int* order);
     void solve_lu(Matrix64f& A, Vector64f& b, Vector64f& x);
 }
 

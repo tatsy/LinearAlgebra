@@ -22,6 +22,7 @@ namespace funopt {
     public:
         Vector64f();
         Vector64f(int dim);
+        Vector64f(double* data, int dim);
         Vector64f(const Vector64f& v);
         ~Vector64f();
 
@@ -53,7 +54,6 @@ namespace funopt {
         os << " ]";
         return os;
     }
-
 }
 
 

@@ -1,6 +1,8 @@
 #include <cstdio>
 #include <cstdlib>
 #include <ctime>
+#include <vector>
+using namespace std;
 
 #include "../funopttoolkit/funopttoolkit.hpp"
 using namespace funopt;
@@ -8,21 +10,15 @@ using namespace funopt;
 int main(int argc, char** argv) {
     srand((unsigned long)time(0));
 
-    int d = 1000;
-    Matrix64f A(d, d);
-    for(int i=0; i<d; i++) {
-        for(int j=0; j<d; j++) {
-            A(i, j) = rand() % 1000;
-        }
-    }
+    int d = 100;
+    double elemA[] = {1.0, 2.0, 3.0,
+                      2.0, 2.0, 3.0,
+                      3.0, 3.0, 3.0}; 
+    Matrix64f A(elemA, 3, 3);
+    cout << A << endl;
 
-    Vector64f x(d);
-    for(int i=0; i<d; i++) {
-        x(i) = rand() % 1000;
-    }
-    Vector64f b = A * x;
-   
-
-    Vector64f y = A.solve(b, FUNOPT_FACTOR_LU);
-    printf("%f\n", (x - y).norm());
+    double elemb[] = {6.0, 7.0, 9.0};
+    Vector64f b(elemb, 3);
+    Vector64f x = A.solve(b, FUNOPT_FACTOR_LU);
+    cout << x << endl;
 }
