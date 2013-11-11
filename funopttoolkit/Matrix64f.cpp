@@ -72,9 +72,7 @@ Matrix64f::~Matrix64f()
 
 Matrix64f& Matrix64f::operator=(const Matrix64f& m)
 {
-    if(data != 0) {
-        delete[] data;
-    }
+    delete[] data;
 
     nrows = m.nrows;
     ncols = m.ncols;
