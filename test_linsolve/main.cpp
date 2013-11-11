@@ -15,10 +15,20 @@ int main(int argc, char** argv) {
                       2.0, 2.0, 3.0,
                       3.0, 3.0, 3.0}; 
     Matrix64f A(elemA, 3, 3);
-    cout << A << endl;
+
+	cout << "Input" << endl;
+    cout << A << endl << endl;
+
+	cout << "det(A) = " << A.det() << endl << endl;
+
+	Matrix64f invA = A.inv();
+	cout << "Inverse" << endl;
+	cout << invA << endl << endl;
+
+	cout << (A * invA) << endl;
 
     double elemb[] = {6.0, 7.0, 9.0};
     Vector64f b(elemb, 3);
-    Vector64f x = A.solve(b, FUNOPT_FACTOR_LU);
+    Matrix64f x = A.solve((Matrix64f)b, FUNOPT_FACTOR_QR);
     cout << x << endl;
 }

@@ -18,7 +18,7 @@ Vector64f::Vector64f(double* data_, int dim) :
     ndim(dim),
     data(0)
 {
-    data = new double(dim);
+    data = new double[ndim];
     memcpy(data, data_, sizeof(double) * dim);
 }
 
