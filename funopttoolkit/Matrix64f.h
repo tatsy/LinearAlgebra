@@ -40,7 +40,10 @@ namespace funopt {
         int cols() const;
 
         // üŒ`–â‘è‚ğ‰ğ‚­
-        Vector64f solve(Vector64f& b, int decomp_type);    
+        Vector64f solve(Vector64f& b, int decomp_type);
+
+        // ŒÅ—L’l‚ğ‹‚ß‚é
+        void eig(Matrix64f& eval, Matrix64f& evec) const;
     };
 
     inline ostream& operator<<(ostream& os, const Matrix64f& m)

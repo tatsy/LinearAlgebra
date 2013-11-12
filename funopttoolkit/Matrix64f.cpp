@@ -91,3 +91,7 @@ Vector64f Matrix64f::solve(Vector64f& b, int decomp_type) {
     return x;
 }
 
+// ŒÅ—L’l‚ğ‹‚ß‚é
+void Matrix64f::eig(Matrix64f& eval, Matrix64f& evec) const {
+}
+
