@@ -7,5 +7,6 @@
 // プリミティブの定義
 #include "Vector64f.h"
 #include "Matrix64f.h"
+#include "Sparse64f.h"
 
 #endif

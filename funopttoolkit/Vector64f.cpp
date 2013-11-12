@@ -1,3 +1,5 @@
+#include <cstring>
+
 #define __EXPORT__
 #include "Vector64f.h"
 using namespace funopt;
@@ -18,7 +20,7 @@ Vector64f::Vector64f(double* data_, int dim) :
     ndim(dim),
     data(0)
 {
-    data = new double(dim);
+    data = new double[ndim];
     memcpy(data, data_, sizeof(double) * dim);
 }
 
@@ -37,9 +39,7 @@ Vector64f::~Vector64f()
 
 Vector64f& Vector64f::operator=(const Vector64f& v)
 {
-    if(data != 0) {
-        delete[] data;
-    }
+	delete[] data;
 
     ndim = v.ndim;
     data = new double[ndim];

@@ -6,6 +6,7 @@
 #include <cstring>
 using namespace std;
 
+#include "funopt_enum.h"
 #include "dll_macros.h"
 
 namespace funopt {
@@ -25,6 +26,13 @@ namespace funopt {
         Matrix64f(int rows, int cols);
         Matrix64f(double* data, int rows, int cols);
         Matrix64f(const Matrix64f& m);
+		Matrix64f(const Vector64f& v);
+
+		// 単位行列
+		static Matrix64f eye(int n);
+
+		// 零行列
+		static Matrix64f zeros(int rows, int cols);
 
         // デストラクタ
         ~Matrix64f();
@@ -34,16 +42,47 @@ namespace funopt {
         double& operator()(int i, int j);
         double  operator()(int i, int j) const;
 
-        Vector64f operator*(const Vector64f& v);
+		Matrix64f operator+(const Matrix64f& m) const;
+		Matrix64f operator-(const Matrix64f& m) const;
+
+        Vector64f operator*(const Vector64f& v) const;
+		Matrix64f operator*(const Matrix64f& m) const;
+		Matrix64f operator*(const double d) const;
+		Matrix64f operator/(const double d) const;
 
         int rows() const;
         int cols() const;
 
-        // 線形問題を解く
-        Vector64f solve(Vector64f& b, int decomp_type);
+		// 行列の転置
+		Matrix64f trans() const;
 
-        // 固有値を求める
-        void eig(Matrix64f& eval, Matrix64f& evec) const;
+		// 行列式を求める
+		double det() const;
+
+		// フロベニウスノルムの二乗
+		double norm2() const;
+
+		// フロベニウスノルム
+		double norm() const;
+
+		// 逆行列を求める
+		Matrix64f inv() const;
+
+        // 線形問題を解く
+		Matrix64f solve(Matrix64f& b, int decomp_type=FUNOPT_FACTOR_LU);
+
+	private:
+		// LU分解
+		void factor_lu(Matrix64f& LU, int* order) const;
+
+		// LU分解により線形問題を解く
+		void solve_lu(Matrix64f& b, Matrix64f& x) const;
+
+		// QR分解
+		void factor_qr(Matrix64f& Q, Matrix64f& R) const;
+
+		// QR分解により線形問題を解く
+		void solve_qr(Matrix64f& b, Matrix64f& x) const;
     };
 
     inline ostream& operator<<(ostream& os, const Matrix64f& m)

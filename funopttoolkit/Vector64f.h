@@ -41,15 +41,10 @@ namespace funopt {
 
     inline ostream& operator<<(ostream& os, const Vector64f& v)
     {
-        os << "[ ";
-        int lim = 10 < v.dim() ? 10 : v.dim();
-        for(int i=0; i<lim; i++) {
+		os << "[ ";
+        for(int i=0; i<v.dim(); i++) {
             os << v(i);
-            if(i != lim-1) os << ", ";
-        }
-
-        if(lim != v.dim()) {
-            os << " ... and more";
+            if(i != v.dim()-1) os << ", ";
         }
         os << " ]";
         return os;
