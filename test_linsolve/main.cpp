@@ -31,4 +31,10 @@ int main(int argc, char** argv) {
     Vector64f b(elemb, 3);
     Matrix64f x = A.solve((Matrix64f)b, FUNOPT_FACTOR_QR);
     cout << x << endl;
+
+    cout << "eigenvalue" << endl;
+    Matrix64f eval, evec;
+    A.eig(eval, evec);
+    cout << eval << endl;
+    cout << evec << endl;
 }
