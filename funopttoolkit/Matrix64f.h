@@ -8,6 +8,7 @@ using namespace std;
 
 #include "funopt_enum.h"
 #include "dll_macros.h"
+#include "matrix_enums.h"
 
 namespace funopt {
     class Vector64f;
@@ -59,11 +60,8 @@ namespace funopt {
 		// 行列式を求める
 		double det() const;
 
-		// フロベニウスノルムの二乗
-		double norm2() const;
-
-		// フロベニウスノルム
-		double norm() const;
+		// 行列ノルム
+        double norm(MatrixNormType type = MAT_NORM_FROBENIUS) const;
 
 		// 逆行列を求める
 		Matrix64f inv() const;

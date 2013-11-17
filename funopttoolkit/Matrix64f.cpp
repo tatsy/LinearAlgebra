@@ -82,15 +82,18 @@ Matrix64f& Matrix64f::operator=(const Matrix64f& m)
     return *this;
 }
 
-double& Matrix64f::operator()(int i, int j) {
+double& Matrix64f::operator()(int i, int j) 
+{
     return data[i * ncols + j];
 }
 
-double Matrix64f::operator()(int i, int j) const {
+double Matrix64f::operator()(int i, int j) const 
+{
     return data[i * ncols + j];
 }
 
-Matrix64f Matrix64f::operator+(const Matrix64f& m) const {
+Matrix64f Matrix64f::operator+(const Matrix64f& m) const 
+{
 	massert(nrows == m.nrows && ncols == m.ncols, "Matrix size is invalid");
 	Matrix64f ret(nrows, ncols);
 	int n = nrows * ncols;
@@ -100,7 +103,8 @@ Matrix64f Matrix64f::operator+(const Matrix64f& m) const {
 	return ret;
 }
 
-Matrix64f Matrix64f::operator-(const Matrix64f& m) const {
+Matrix64f Matrix64f::operator-(const Matrix64f& m) const 
+{
 	massert(nrows == m.nrows && ncols == m.ncols, "Matrix size is invalid");
 	Matrix64f ret(nrows, ncols);
 	int n = nrows * ncols;
@@ -213,7 +217,8 @@ Matrix64f Matrix64f::inv() const {
 	return B;
 }
 
-Matrix64f Matrix64f::solve(Matrix64f& b, int factor_type) {
+Matrix64f Matrix64f::solve(Matrix64f& b, int factor_type)
+{
     Matrix64f x;
 	if(factor_type == FUNOPT_FACTOR_LU) {
 	    solve_lu(b, x);
@@ -225,7 +230,8 @@ Matrix64f Matrix64f::solve(Matrix64f& b, int factor_type) {
 }
 
 // å≈óLílÇãÅÇﬂÇÈ
-void Matrix64f::eig(Matrix64f& eval, Matrix64f& evec) const {
+void Matrix64f::eig(Matrix64f& eval, Matrix64f& evec) const
+{
     massert(nrows == ncols, "Matrix is not square.");
     double tol = 1.0e-12;
     int n = nrows;

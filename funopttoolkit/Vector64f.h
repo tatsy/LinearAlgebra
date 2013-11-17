@@ -29,14 +29,17 @@ namespace funopt {
         Vector64f& operator=(const Vector64f& v);
 
         double& operator()(int i);
-        double operator()(int i) const;
+        double  operator()(int i) const;
         
         Vector64f operator+(const Vector64f& v) const;
         Vector64f operator-(const Vector64f& v) const;
+        Vector64f operator*(double s) const;
+        Vector64f operator/(double s) const;
 
         int dim() const;
         double norm() const;
         double norm2() const;
+        double dot(const Vector64f& v) const;
     };
 
     inline ostream& operator<<(ostream& os, const Vector64f& v)
