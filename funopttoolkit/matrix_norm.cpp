@@ -1,3 +1,4 @@
+#define __EXPORT__
 #include "Vector64f.h"
 #include "Matrix64f.h"
 using namespace funopt;
@@ -18,15 +19,24 @@ double matrix_norm_frobenius(const Matrix64f& A)
 
 double matrix_norm_spectral(const Matrix64f& A)
 {
-    int dim = A.cols();
-    Vector64f v(dim);
-    v(0) = 1.0;
-    for(int it=0; it<100; it++) {
-        v = A * v;
-        v = v / v.norm();
-    }
+    const double tol = 1.0e-20;
+    const int    dim = A.cols();
+    
+    Vector64f u, v(dim);
+    double vn, ret, old = 0.0;
 
-    double ret = v.dot(A * v) / v.norm();
+    v(0) = 1.0;
+    vn = v.norm();
+    for(int it=0; it<100; it++) {
+        u = A * v;
+        ret = v.dot(u);
+        if(abs(old - ret) < tol) break;
+
+        old = ret;
+        vn = u.norm();
+        v = u / vn;
+    }
+    return ret;
 }
 
 double Matrix64f::norm(MatrixNormType type) const

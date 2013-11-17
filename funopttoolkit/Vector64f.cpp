@@ -87,7 +87,7 @@ Vector64f Vector64f::operator*(double s) const
 
 Vector64f Vector64f::operator/(double s) const
 {
-    massert(s == 0.0, "zero division !");
+    massert(s != 0.0, "zero division !");
     Vector64f ret(ndim);
     for(int i=0; i<ndim; i++) {
         ret.data[i] = data[i] / s;
@@ -114,7 +114,7 @@ double Vector64f::norm2() const {
 
 double Vector64f::dot(const Vector64f& v) const
 {
-    massert(ndim != v.ndim, "vector dimension is different !");
+    massert(ndim == v.ndim, "vector dimension is different !");
 
     double ret = 0.0;
     for(int i=0; i<ndim; i++) {

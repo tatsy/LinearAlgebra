@@ -194,19 +194,6 @@ double Matrix64f::det() const {
 	return ret;
 }
 
-double Matrix64f::norm() const {
-	return sqrt(norm2());
-}
-
-double Matrix64f::norm2() const {
-	double ret = 0.0;
-	int n = nrows * ncols;
-	for(int i=0; i<n; i++) {
-		ret += data[i] * data[i];
-	}
-	return ret;
-}
-
 Matrix64f Matrix64f::inv() const {
 	massert(nrows == ncols, "Matrix is not square. Cannot invert.");
 

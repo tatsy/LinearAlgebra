@@ -19,8 +19,9 @@ void Matrix64f::factor_qr(Matrix64f& Q, Matrix64f& R) const {
 			x(i, 0) = R(k+i, k);
 		}
 
+        double norm = x.norm();
 		x(0, 0) -= x.norm();
-		Matrix64f subP = Matrix64f::eye(n - k) - (x * x.trans()) / (0.5 * x.norm2());
+		Matrix64f subP = Matrix64f::eye(n - k) - (x * x.trans()) / (0.5 * norm * norm);
 		Matrix64f P = Matrix64f::eye(n);
 		for(int i=0; i<n-k; i++) {
 			for(int j=0; j<n-k; j++) {
