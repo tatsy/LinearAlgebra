@@ -82,12 +82,12 @@ Matrix64f& Matrix64f::operator=(const Matrix64f& m)
     return *this;
 }
 
-double& Matrix64f::operator()(int i, int j) 
+inline double& Matrix64f::operator()(int i, int j) 
 {
     return data[i * ncols + j];
 }
 
-double Matrix64f::operator()(int i, int j) const 
+inline double Matrix64f::operator()(int i, int j) const 
 {
     return data[i * ncols + j];
 }
@@ -162,11 +162,13 @@ Matrix64f Matrix64f::operator/(const double d) const {
 }
 
 
-int Matrix64f::rows() const {
+inline int Matrix64f::rows() const 
+{
     return nrows;
 }
 
-int Matrix64f::cols() const {
+inline int Matrix64f::cols() const 
+{
     return ncols;
 }
 
@@ -255,3 +257,15 @@ void Matrix64f::eig(Matrix64f& eval, Matrix64f& evec) const
     }
 }
 
+ostream& operator<<(ostream& os, const Matrix64f& m)
+{
+    for(int i=0; i<m.rows(); i++) {
+        os << (i == 0 ? "[" : " ");
+        os << "[ ";
+        for(int j=0; j<m.cols(); j++) {
+            os << m(i, j) << (j == m.cols()-1 ? " ]" : ", ");
+        }
+        os << (i == m.rows()-1 ? "]" : "\n");
+    }
+    return os;
+}

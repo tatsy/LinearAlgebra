@@ -21,7 +21,7 @@ namespace funopt {
 
     public:
         Vector64f();
-        Vector64f(int dim);
+        explicit Vector64f(int dim);
         Vector64f(double* data, int dim);
         Vector64f(const Vector64f& v);
         ~Vector64f();
@@ -41,18 +41,8 @@ namespace funopt {
         double norm2() const;
         double dot(const Vector64f& v) const;
     };
-
-    inline ostream& operator<<(ostream& os, const Vector64f& v)
-    {
-		os << "[ ";
-        for(int i=0; i<v.dim(); i++) {
-            os << v(i);
-            if(i != v.dim()-1) os << ", ";
-        }
-        os << " ]";
-        return os;
-    }
 }
 
+DLL_EXPORT ostream& operator<<(ostream& os, const funopt::Vector64f& v);
 
 #endif

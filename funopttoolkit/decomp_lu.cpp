@@ -8,7 +8,8 @@
 
 using namespace funopt;
 
-void Matrix64f::factor_lu(Matrix64f& LU, int* order) const {
+void Matrix64f::factor_lu(Matrix64f& LU, int* order) const 
+{
     massert(nrows == ncols, "Matrix is not square. Cannot factorize.");
     
     int n = ncols;
@@ -45,7 +46,8 @@ void Matrix64f::factor_lu(Matrix64f& LU, int* order) const {
     }
 }
 
-void Matrix64f::solve_lu(Matrix64f& b, Matrix64f& x) const {
+void Matrix64f::solve_lu(Matrix64f& b, Matrix64f& x) const 
+{
 	massert(nrows == ncols, "Matrix is not square. Cannot factorize.");
 	massert(ncols == b.nrows, "Matrix size is invalid");
 

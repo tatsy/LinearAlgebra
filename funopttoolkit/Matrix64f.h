@@ -14,9 +14,6 @@ namespace funopt {
     class Vector64f;
 
     class DLL_EXPORT Matrix64f {
-        friend ostream& operator<<(ostream& os, const Matrix64f& m);
-
-
     private:
         int nrows, ncols;
         double* data;
@@ -85,19 +82,8 @@ namespace funopt {
 		// QR•ª‰ð‚É‚æ‚èüŒ`–â‘è‚ð‰ð‚­
 		void solve_qr(Matrix64f& b, Matrix64f& x) const;
     };
-
-    inline ostream& operator<<(ostream& os, const Matrix64f& m)
-    {
-        for(int i=0; i<m.rows(); i++) {
-            os << (i == 0 ? "[" : " ");
-            os << "[ ";
-            for(int j=0; j<m.cols(); j++) {
-                os << m(i, j) << (j == m.cols()-1 ? " ]" : ", ");
-            }
-            os << (i == m.rows()-1 ? "]" : "\n");
-        }
-        return os;
-    }
 }
+
+DLL_EXPORT ostream& operator<<(ostream& os, const funopt::Matrix64f& m);
 
 #endif

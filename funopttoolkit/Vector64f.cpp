@@ -50,11 +50,11 @@ Vector64f& Vector64f::operator=(const Vector64f& v)
     return *this;
 }
 
-double& Vector64f::operator()(int i) {
+inline double& Vector64f::operator()(int i) {
     return data[i];
 }
 
-double Vector64f::operator()(int i) const {
+inline double Vector64f::operator()(int i) const {
     return data[i];
 }
 
@@ -122,3 +122,15 @@ double Vector64f::dot(const Vector64f& v) const
     }
     return ret;
 }
+
+ostream& operator<<(ostream& os, const Vector64f& v)
+{
+	os << "[ ";
+    for(int i=0; i<v.dim(); i++) {
+        os << v(i);
+        if(i != v.dim()-1) os << ", ";
+    }
+    os << " ]";
+    return os;
+}
+

@@ -3,21 +3,21 @@
 #include "Matrix64f.h"
 using namespace funopt;
 
-double matrix_norm_frobenius(const Matrix64f& A)
+static double matrix_norm_frobenius(const Matrix64f& A)
 {
     int r = A.rows();
     int c = A.cols();
     double ret = 0.0;
     for(int i=0; i<r; i++) {
         for(int j=0; j<c; j++) {
-            ret += A(i, j);
+            ret += A(i, j) * A(i, j);
         }
     }
     ret = sqrt(ret);
     return ret;
 }
 
-double matrix_norm_spectral(const Matrix64f& A)
+static double matrix_norm_spectral(const Matrix64f& A)
 {
     const double tol = 1.0e-20;
     const int    dim = A.cols();
