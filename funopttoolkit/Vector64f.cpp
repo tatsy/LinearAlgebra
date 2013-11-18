@@ -1,6 +1,6 @@
 #include <cstring>
 
-#define __EXPORT__
+#define __VEC64F_EXPORT__
 #include "Vector64f.h"
 using namespace funopt;
 
@@ -76,25 +76,31 @@ Vector64f Vector64f::operator-(const Vector64f& v) const
     return ret;
 }
 
-Vector64f Vector64f::operator*(double s) const
+Vector64f operator*(const Vector64f& v, double s)
 {
-    Vector64f ret(ndim);
+	const int ndim = v.dim();
+    Vector64f ret(v.dim());
     for(int i=0; i<ndim; i++) {
-        ret.data[i] = data[i] * s;
+        ret(i) = v(i) * s;
     }
     return ret;
 }
 
-Vector64f Vector64f::operator/(double s) const
+Vector64f operator*(double s, const Vector64f& v)
+{
+	return v * s;
+}
+
+Vector64f operator/(const Vector64f& v, double s)
 {
     massert(s != 0.0, "zero division !");
+	const int ndim = v.dim();
     Vector64f ret(ndim);
     for(int i=0; i<ndim; i++) {
-        ret.data[i] = data[i] / s;
+        ret(i) = v(i) / s;
     }
     return ret;
 }
-
 
 int Vector64f::dim() const {
     return ndim;

@@ -1,7 +1,8 @@
-#define __EXPORT__
+#define __MAT64F_EXPORT__
 #include "Matrix64f.h"
 using namespace funopt;
 
+#include "MTRand.h"
 #include "Vector64f.h"
 #include "funopt_macros.h"
 
@@ -62,6 +63,19 @@ Matrix64f Matrix64f::zeros(int rows, int cols) {
 	Matrix64f Z(rows, cols);
 	memset(Z.data, 0, sizeof(double) * rows * cols);
 	return Z;
+}
+
+// 乱数行列
+Matrix64f Matrix64f::rand(int rows, int cols)
+{
+	MTRand rng;
+	Matrix64f ret(rows, cols);
+	for(int i=0; i<rows; i++) {
+		for(int j=0; j<cols; j++) {
+			ret(i, j) = rng.randReal();
+		}
+	}
+	return ret;
 }
 
 // デストラクタ
@@ -216,45 +230,6 @@ Matrix64f Matrix64f::solve(Matrix64f& b, int factor_type)
 		solve_qr(b, x);
 	}
     return x;
-}
-
-// 固有値を求める
-void Matrix64f::eig(Matrix64f& eval, Matrix64f& evec) const
-{
-    massert(nrows == ncols, "Matrix is not square.");
-    double tol = 1.0e-12;
-    int n = nrows;
-
-    Matrix64f Q, R, I;
-    I = Matrix64f::eye(n);
-
-    eval = (*this);
-    evec = I;
-    for(int i=0; i<1000; i++) {
-        double a11 = eval(n-2,n-2);
-        double a12 = eval(n-2,n-1);
-        double a21 = eval(n-1,n-2);
-        double a22 = eval(n-1,n-1);
-        double a = a11 + a22;
-        double b = a11 * a22 - a12 * a21;
-        double x1 = (a + sqrt(a * a - 4.0 * b)) / 2.0;
-        double x2 = (a - sqrt(a * a - 4.0 * b)) / 2.0;
-        double mu = abs(x1 - a22) < abs(x2 - a22) ? x1 : x2;
-        eval = eval - I * mu;
-        eval.factor_qr(Q, R);
-        eval = R * Q + I * mu;
-        evec = evec * Q;
-
-        bool is_end = true;
-        for(int i=0; i<n-1; i++) {
-            if(abs(eval(i, i+1)) > tol || abs(eval(i, i+1)) > tol) {
-                is_end = false;
-                break;
-            }
-        }
-
-        if(is_end) break;
-    }
 }
 
 ostream& operator<<(ostream& os, const Matrix64f& m)

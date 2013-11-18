@@ -1,19 +1,24 @@
 #ifndef _MATRIX_64F_
 #define _MATRIX_64F_
 
+#ifdef __MAT64F_EXPORT__
+#define MAT64F_DLL_EXPORT __declspec(dllexport)
+#else
+#define MAT64F_DLL_EXPORT __declspec(dllimport)
+#endif
+
 #include <iostream>
 #include <sstream>
 #include <cstring>
 using namespace std;
 
 #include "funopt_enum.h"
-#include "dll_macros.h"
 #include "matrix_enums.h"
 
 namespace funopt {
     class Vector64f;
 
-    class DLL_EXPORT Matrix64f {
+    class MAT64F_DLL_EXPORT Matrix64f {
     private:
         int nrows, ncols;
         double* data;
@@ -31,6 +36,9 @@ namespace funopt {
 
 		// 零行列
 		static Matrix64f zeros(int rows, int cols);
+
+		// 乱数行列
+		static Matrix64f rand(int rows, int cols);
 
         // デストラクタ
         ~Matrix64f();
@@ -84,6 +92,6 @@ namespace funopt {
     };
 }
 
-DLL_EXPORT ostream& operator<<(ostream& os, const funopt::Matrix64f& m);
+MAT64F_DLL_EXPORT ostream& operator<<(ostream& os, const funopt::Matrix64f& m);
 
 #endif
