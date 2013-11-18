@@ -67,7 +67,7 @@ namespace funopt {
 		Matrix64f solve(Matrix64f& b, int decomp_type=FUNOPT_FACTOR_LU);
 
         // ŒÅ—L’l‚ğ‹‚ß‚é
-        void eig(Matrix64f& eval, Matrix64f& evec) const;
+        void eig(Matrix64f& val, Matrix64f& vec) const;
 
 	private:
 		// LU•ª‰ğ

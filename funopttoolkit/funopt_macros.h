@@ -1,6 +1,7 @@
 #ifndef _FUNOPT_MACROS_H_
 #define _FUNOPT_MACROS_H_
 #include <cstdio>
+#include <process.h>
 
 inline void m_assert(bool b, char* msg, char* file, int line) {
     if(!b) {

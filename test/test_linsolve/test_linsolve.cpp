@@ -25,16 +25,11 @@ int main(int argc, char** argv) {
 	cout << "Inverse" << endl;
 	cout << invA << endl << endl;
 
-	cout << (A * invA) << endl;
+	cout << "A * A^-1" << endl;
+	cout << (A * invA) << endl << endl;
 
     double elemb[] = {6.0, 7.0, 9.0};
     Vector64f b(elemb, 3);
     Matrix64f x = A.solve((Matrix64f)b, FUNOPT_FACTOR_LU);
     cout << x << endl;
-
-    cout << "eigenvalue" << endl;
-    Matrix64f eval, evec;
-    A.eig(eval, evec);
-    cout << eval << endl;
-    cout << evec << endl;
 }
