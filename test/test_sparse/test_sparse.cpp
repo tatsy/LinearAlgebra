@@ -2,7 +2,7 @@
 #include <vector>
 using namespace std;
 
-#include "../funopttoolkit/funopttoolkit.hpp"
+#include "../../funopttoolkit/funopttoolkit.hpp"
 using namespace funopt;
 
 int main(int argc, char** argv) {
