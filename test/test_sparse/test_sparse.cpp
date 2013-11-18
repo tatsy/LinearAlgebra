@@ -26,5 +26,4 @@ int main(int argc, char** argv) {
 			printf("(%d, %d) = %f\n", i, j, B(i, j));
 		}
 	}
-
 }

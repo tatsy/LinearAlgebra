@@ -1,21 +1,22 @@
 #include <cstdio>
 #include <cstdlib>
 
-#define __EXPORT__
+#define __MAT64F_EXPORT__
 #include "funopt_macros.h"
 #include "Matrix64f.h"
 #include "Vector64f.h"
 
 using namespace funopt;
 
-void Matrix64f::factor_lu(Matrix64f& LU, int* order) const {
+void Matrix64f::factor_lu(Matrix64f& LU, int* order) const 
+{
     massert(nrows == ncols, "Matrix is not square. Cannot factorize.");
     
     int n = ncols;
     LU = (*this);
     for(int i=0; i<n; i++) order[i] = i;
 
-    for(int k=0; k<n; k++) {
+    for(int k=0; k<n; k+=2) {
         // ピボット選択
         double maxval = 0.0;
         int    pivot  = k;
@@ -45,7 +46,8 @@ void Matrix64f::factor_lu(Matrix64f& LU, int* order) const {
     }
 }
 
-void Matrix64f::solve_lu(Matrix64f& b, Matrix64f& x) const {
+void Matrix64f::solve_lu(Matrix64f& b, Matrix64f& x) const 
+{
 	massert(nrows == ncols, "Matrix is not square. Cannot factorize.");
 	massert(ncols == b.nrows, "Matrix size is invalid");
 

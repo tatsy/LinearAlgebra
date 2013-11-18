@@ -7,9 +7,11 @@
 #include "Vector64f.h"
 using namespace funopt;
 
-void Matrix64f::factor_qr(Matrix64f& Q, Matrix64f& R) const {
+void Matrix64f::factor_qr(Matrix64f& Q, Matrix64f& R) const
+{
 	massert(nrows == ncols, "Matrix is not square. Cannot factorize.");
 
+    double nx;
 	int n = nrows;
 	R = (*this);
 	Q = Matrix64f::eye(n);
@@ -20,7 +22,8 @@ void Matrix64f::factor_qr(Matrix64f& Q, Matrix64f& R) const {
 		}
 
 		x(0, 0) -= x.norm();
-		Matrix64f subP = Matrix64f::eye(n - k) - (x * x.trans()) / (0.5 * x.norm2());
+        nx = x.norm();
+		Matrix64f subP = Matrix64f::eye(n - k) - (x * x.trans()) / (0.5 * nx * nx);
 		Matrix64f P = Matrix64f::eye(n);
 		for(int i=0; i<n-k; i++) {
 			for(int j=0; j<n-k; j++) {
@@ -33,7 +36,8 @@ void Matrix64f::factor_qr(Matrix64f& Q, Matrix64f& R) const {
 	}
 }
 
-void Matrix64f::solve_qr(Matrix64f& b, Matrix64f& x) const {
+void Matrix64f::solve_qr(Matrix64f& b, Matrix64f& x) const 
+{
 	massert(nrows == ncols, "Matrix is not square. Cannot factorize.");
 	massert(ncols == b.nrows, "Matrix size is invalid");
 

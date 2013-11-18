@@ -1,7 +1,8 @@
-#define __EXPORT__
+#define __MAT64F_EXPORT__
 #include "Matrix64f.h"
 using namespace funopt;
 
+#include "MTRand.h"
 #include "Vector64f.h"
 #include "funopt_macros.h"
 
@@ -64,6 +65,19 @@ Matrix64f Matrix64f::zeros(int rows, int cols) {
 	return Z;
 }
 
+// 乱数行列
+Matrix64f Matrix64f::rand(int rows, int cols)
+{
+	MTRand rng;
+	Matrix64f ret(rows, cols);
+	for(int i=0; i<rows; i++) {
+		for(int j=0; j<cols; j++) {
+			ret(i, j) = rng.randReal();
+		}
+	}
+	return ret;
+}
+
 // デストラクタ
 Matrix64f::~Matrix64f()
 {
@@ -82,15 +96,18 @@ Matrix64f& Matrix64f::operator=(const Matrix64f& m)
     return *this;
 }
 
-double& Matrix64f::operator()(int i, int j) {
+inline double& Matrix64f::operator()(int i, int j) 
+{
     return data[i * ncols + j];
 }
 
-double Matrix64f::operator()(int i, int j) const {
+inline double Matrix64f::operator()(int i, int j) const 
+{
     return data[i * ncols + j];
 }
 
-Matrix64f Matrix64f::operator+(const Matrix64f& m) const {
+Matrix64f Matrix64f::operator+(const Matrix64f& m) const 
+{
 	massert(nrows == m.nrows && ncols == m.ncols, "Matrix size is invalid");
 	Matrix64f ret(nrows, ncols);
 	int n = nrows * ncols;
@@ -100,7 +117,8 @@ Matrix64f Matrix64f::operator+(const Matrix64f& m) const {
 	return ret;
 }
 
-Matrix64f Matrix64f::operator-(const Matrix64f& m) const {
+Matrix64f Matrix64f::operator-(const Matrix64f& m) const 
+{
 	massert(nrows == m.nrows && ncols == m.ncols, "Matrix size is invalid");
 	Matrix64f ret(nrows, ncols);
 	int n = nrows * ncols;
@@ -158,11 +176,13 @@ Matrix64f Matrix64f::operator/(const double d) const {
 }
 
 
-int Matrix64f::rows() const {
+inline int Matrix64f::rows() const 
+{
     return nrows;
 }
 
-int Matrix64f::cols() const {
+inline int Matrix64f::cols() const 
+{
     return ncols;
 }
 
@@ -190,19 +210,6 @@ double Matrix64f::det() const {
 	return ret;
 }
 
-double Matrix64f::norm() const {
-	return sqrt(norm2());
-}
-
-double Matrix64f::norm2() const {
-	double ret = 0.0;
-	int n = nrows * ncols;
-	for(int i=0; i<n; i++) {
-		ret += data[i] * data[i];
-	}
-	return ret;
-}
-
 Matrix64f Matrix64f::inv() const {
 	massert(nrows == ncols, "Matrix is not square. Cannot invert.");
 
@@ -213,7 +220,8 @@ Matrix64f Matrix64f::inv() const {
 	return B;
 }
 
-Matrix64f Matrix64f::solve(Matrix64f& b, int factor_type) {
+Matrix64f Matrix64f::solve(Matrix64f& b, int factor_type)
+{
     Matrix64f x;
 	if(factor_type == FUNOPT_FACTOR_LU) {
 	    solve_lu(b, x);
@@ -222,4 +230,17 @@ Matrix64f Matrix64f::solve(Matrix64f& b, int factor_type) {
 		solve_qr(b, x);
 	}
     return x;
+}
+
+ostream& operator<<(ostream& os, const Matrix64f& m)
+{
+    for(int i=0; i<m.rows(); i++) {
+        os << (i == 0 ? "[" : " ");
+        os << "[ ";
+        for(int j=0; j<m.cols(); j++) {
+            os << m(i, j) << (j == m.cols()-1 ? " ]" : ", ");
+        }
+        os << (i == m.rows()-1 ? "]" : "\n");
+    }
+    return os;
 }

@@ -1,8 +1,10 @@
 #include <cstring>
 
-#define __EXPORT__
+#define __VEC64F_EXPORT__
 #include "Vector64f.h"
 using namespace funopt;
+
+#include "funopt_macros.h"
 
 Vector64f::Vector64f() :
     data(0)
@@ -48,26 +50,54 @@ Vector64f& Vector64f::operator=(const Vector64f& v)
     return *this;
 }
 
-double& Vector64f::operator()(int i) {
+inline double& Vector64f::operator()(int i) {
     return data[i];
 }
 
-double Vector64f::operator()(int i) const {
+inline double Vector64f::operator()(int i) const {
     return data[i];
 }
 
-Vector64f Vector64f::operator+(const Vector64f& v) const {
+Vector64f Vector64f::operator+(const Vector64f& v) const
+{
     Vector64f ret(ndim);
     for(int i=0; i<ndim; i++) {
-        ret(i) = (*this)(i) + v(i);
+        ret.data[i] = data[i] + v.data[i];
     }
     return ret;
 }
 
-Vector64f Vector64f::operator-(const Vector64f& v) const {
+Vector64f Vector64f::operator-(const Vector64f& v) const 
+{
     Vector64f ret(ndim);
     for(int i=0; i<ndim; i++) {
-        ret(i) = (*this)(i) - v(i);
+        ret.data[i] = data[i] - v.data[i];
+    }
+    return ret;
+}
+
+Vector64f operator*(const Vector64f& v, double s)
+{
+	const int ndim = v.dim();
+    Vector64f ret(v.dim());
+    for(int i=0; i<ndim; i++) {
+        ret(i) = v(i) * s;
+    }
+    return ret;
+}
+
+Vector64f operator*(double s, const Vector64f& v)
+{
+	return v * s;
+}
+
+Vector64f operator/(const Vector64f& v, double s)
+{
+    massert(s != 0.0, "zero division !");
+	const int ndim = v.dim();
+    Vector64f ret(ndim);
+    for(int i=0; i<ndim; i++) {
+        ret(i) = v(i) / s;
     }
     return ret;
 }
@@ -87,3 +117,26 @@ double Vector64f::norm2() const {
     }
     return ret;
 }
+
+double Vector64f::dot(const Vector64f& v) const
+{
+    massert(ndim == v.ndim, "vector dimension is different !");
+
+    double ret = 0.0;
+    for(int i=0; i<ndim; i++) {
+        ret += data[i] * v.data[i];
+    }
+    return ret;
+}
+
+ostream& operator<<(ostream& os, const Vector64f& v)
+{
+	os << "[ ";
+    for(int i=0; i<v.dim(); i++) {
+        os << v(i);
+        if(i != v.dim()-1) os << ", ";
+    }
+    os << " ]";
+    return os;
+}
+
