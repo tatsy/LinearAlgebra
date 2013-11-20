@@ -3,57 +3,55 @@
 #include "Matrix64f.h"
 using namespace funopt;
 
-static void tridiag(Matrix64f& A)
+// 行列Aを三重対角行列Tと相似変換Vに分解
+static void tridiag(const Matrix64f& A, Matrix64f& T, Matrix64f& V)
 {
 	massert(A.rows() == A.cols(), "matrix is not square");
 
 	int n = A.rows();
+    T = A;
+    V = Matrix64f::eye(n);
 	double nx = 0.0;
 	for(int k=0; k<n-1; k++) {
 		double a = 0.0;
 		for(int i=k+1; i<n; i++) {
-			a += A(i, k) * A(i, k);
+			a += T(i, k) * T(i, k);
 		}
 
-		double sgn = A(k+1, k) > 0.0 ? 1.0 : -1.0;
+		double sgn = T(k+1, k) > 0.0 ? 1.0 : -1.0;
 		a = -sgn * sqrt(a);
-		double r = sqrt(0.5 * a * (a - A(k+1, k)));
+		double r = sqrt(0.5 * a * (a - T(k+1, k)));
 
-		Matrix64f v(n-k, 1);
-		v(0, 0) = 0.0;
-		v(1, 0) = (A(k+1, k) - a) / (2.0 * r);
+		Matrix64f v(n, 1);
+		v(k, 0) = 0.0;
+		v(k+1, 0) = (T(k+1, k) - a) / (2.0 * r);
 
 		for(int i=2; i<n-k; i++) {
-			v(i, 0) = A(k+i, k) / (2.0 * r);
+			v(k+i, 0) = T(k+i, k) / (2.0 * r);
 		}
 
-		Matrix64f subP = Matrix64f::eye(n - k) - (v * v.trans()) * 2.0;
-		Matrix64f P = Matrix64f::eye(n);
-		for(int i=0; i<n-k; i++) {
-			for(int j=0; j<n-k; j++) {
-				P(k+i, k+j) = subP(i, j);
-			}
-		}
+		Matrix64f P = Matrix64f::eye(n) - (v * v.trans()) * 2.0;
 
-		A = P * A * P;
+        T = P * T * P;
+        V = V * P;
 	}
 }
 
 void Matrix64f::eig(Matrix64f& val, Matrix64f& vec) const
 {
 	massert(nrows == ncols, "Matrix is not square.");
-    double tol = 1.0e-12;
+    double tol = 1.0e-20;
     int n = nrows;
 
     Matrix64f Q, R, I;
     I = Matrix64f::eye(n);
 
-    val = *this;
-	tridiag(val);
-	cout << val << endl << endl;
+    Matrix64f T, V;
+	tridiag(*this, T, V);
 
+    val = T;
     vec = I;
-    for(int i=0; i<1000; i++) {
+    for(int i=0; i<100; i++) {
         double a11 = val(n-2,n-2);
         double a12 = val(n-2,n-1);
         double a21 = val(n-1,n-2);
@@ -66,7 +64,6 @@ void Matrix64f::eig(Matrix64f& val, Matrix64f& vec) const
         val = val - I * mu;
         val.factor_qr(Q, R);
         val = R * Q + I * mu;
-        vec = vec * Q;
 
         bool is_end = true;
         for(int i=0; i<n-1; i++) {
@@ -75,7 +72,31 @@ void Matrix64f::eig(Matrix64f& val, Matrix64f& vec) const
                 break;
             }
         }
-
         if(is_end) break;
+    }
+
+    // 三重対角行列から固有ベクトルを求める
+    vec = Matrix64f(n, n);
+    for(int j=0; j<n; j++) {
+        double l = val(j, j);
+        printf("l = %f\n", l);
+
+        vec(0, j) = 1.0;
+        vec(1, j) = -(T(0, 0) - l) / T(0, 1);
+        for(int k=2; k<n; k++) {
+            vec(k, j) = - (vec(k-2, j) * T(k-1, k-2) + vec(k-1, j) * (T(k-1, k-1) - l)) / T(k-1, k); 
+        }
+    }
+    vec = V * vec;
+
+    for(int j=0; j<n; j++) {
+        double nv = 0.0;
+        for(int i=0; i<n; i++) {
+            nv += vec(i, j) * vec(i, j);
+        }
+        nv = sqrt(nv);
+        for(int i=0; i<n; i++) {
+            vec(i, j) /= nv;
+        }
     }
 }

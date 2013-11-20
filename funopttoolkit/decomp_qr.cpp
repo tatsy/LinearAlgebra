@@ -1,7 +1,7 @@
 #include <cstdio>
 #include <cstdlib>
 
-#define __EXPORT__
+#define __MAT64F_EXPORT__
 #include "funopt_macros.h"
 #include "Matrix64f.h"
 #include "Vector64f.h"

@@ -5,11 +5,18 @@ using namespace std;
 using namespace funopt;
 
 int main(int argc, char** argv) {
-	Matrix64f A = Matrix64f::rand(5, 5);
-	A = A + A.trans();
-	Matrix64f L, U;
+	//double elemA[] = {1, 2, 3, 4,
+	//                  2, 2, 3, 4,
+ //                     3, 3, 3, 4,
+ //                     4, 4, 4, 4 };
+ //   Matrix64f A(elemA, 4, 4);
+
+	 Matrix64f A = Matrix64f::rand(100, 100);
+	 A = A + A.trans();
+	
+    Matrix64f L, U;
 	A.eig(L, U);
 
-	cout << L << endl << endl;
-	cout << U << endl << endl;
+	// cout << L << endl << endl;
+	// cout << U << endl << endl;
 }
