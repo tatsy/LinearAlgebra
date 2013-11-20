@@ -47,17 +47,14 @@ namespace funopt {
 
         double& operator()(int i, int j);
         double  operator()(int i, int j) const;
-
-		Matrix64f operator+(const Matrix64f& m) const;
-		Matrix64f operator-(const Matrix64f& m) const;
-
-        Vector64f operator*(const Vector64f& v) const;
-		Matrix64f operator*(const Matrix64f& m) const;
-		Matrix64f operator*(const double d) const;
-		Matrix64f operator/(const double d) const;
-
+        Matrix64f& operator+=(const Matrix64f& A);
+        Matrix64f& operator-=(const Matrix64f& A);
+        
         int rows() const;
         int cols() const;
+
+        // 部分行列の取り出し
+        Matrix64f submat(int i, int j, int rows, int cols) const;
 
 		// 行列の転置
 		Matrix64f trans() const;
@@ -93,5 +90,16 @@ namespace funopt {
 }
 
 MAT64F_DLL_EXPORT ostream& operator<<(ostream& os, const funopt::Matrix64f& m);
+
+
+// 演算子定義
+
+MAT64F_DLL_EXPORT funopt::Matrix64f operator+(const funopt::Matrix64f& A, const funopt::Matrix64f& B);
+MAT64F_DLL_EXPORT funopt::Matrix64f operator-(const funopt::Matrix64f& A, const funopt::Matrix64f& B);
+MAT64F_DLL_EXPORT funopt::Matrix64f operator*(const funopt::Matrix64f& A, const funopt::Matrix64f& B);
+MAT64F_DLL_EXPORT funopt::Vector64f operator*(const funopt::Matrix64f& A, const funopt::Vector64f& v);
+MAT64F_DLL_EXPORT funopt::Matrix64f operator*(const funopt::Matrix64f& A, double d);
+MAT64F_DLL_EXPORT funopt::Matrix64f operator*(double d, const funopt::Matrix64f& A);
+MAT64F_DLL_EXPORT funopt::Matrix64f operator/(const funopt::Matrix64f& A, double d);
 
 #endif

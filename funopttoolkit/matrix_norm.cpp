@@ -1,4 +1,4 @@
-#define __EXPORT__
+#define __MAT64F_EXPORT__
 #include "Vector64f.h"
 #include "Matrix64f.h"
 using namespace funopt;

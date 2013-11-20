@@ -88,11 +88,10 @@ Matrix64f& Matrix64f::operator=(const Matrix64f& m)
 {
     delete[] data;
 
-    nrows = m.nrows;
-    ncols = m.ncols;
-    data  = new double[nrows * ncols];
+    nrows    = m.nrows;
+    ncols    = m.ncols;
+    data     = new double[nrows * ncols];
     memcpy(data, m.data, sizeof(double) * nrows * ncols);
-
     return *this;
 }
 
@@ -106,76 +105,6 @@ inline double Matrix64f::operator()(int i, int j) const
     return data[i * ncols + j];
 }
 
-Matrix64f Matrix64f::operator+(const Matrix64f& m) const 
-{
-	massert(nrows == m.nrows && ncols == m.ncols, "Matrix size is invalid");
-	Matrix64f ret(nrows, ncols);
-	int n = nrows * ncols;
-	for(int i=0; i<n; i++) {
-		ret.data[i] = data[i] + m.data[i];
-	}
-	return ret;
-}
-
-Matrix64f Matrix64f::operator-(const Matrix64f& m) const 
-{
-	massert(nrows == m.nrows && ncols == m.ncols, "Matrix size is invalid");
-	Matrix64f ret(nrows, ncols);
-	int n = nrows * ncols;
-	for(int i=0; i<n; i++) {
-		ret.data[i] = data[i] - m.data[i];
-	}
-	return ret;
-}
-
-
-Vector64f Matrix64f::operator*(const Vector64f& v) const {
-    Vector64f ret(v.ndim);
-    for(int i=0; i<nrows; i++) {
-        double val = 0.0;
-        for(int j=0; j<ncols; j++) {
-            val += (*this)(i, j) * v(j);
-        }
-		ret(i) = val;
-    }
-    return ret;
-}
-
-Matrix64f Matrix64f::operator*(const Matrix64f& m) const {
-	massert(ncols == m.nrows, "Matrix size is invalid");
-
-	Matrix64f ret(nrows, m.ncols);
-	for(int i=0; i<nrows; i++) {
-		for(int j=0; j<m.ncols; j++) {
-			double val = 0.0;
-			for(int k=0; k<ncols; k++) {
-				val += (*this)(i, k) * m(k, j);
-			}
-			ret(i, j) = val;
-		}
-	}
-	return ret;
-}
-
-Matrix64f Matrix64f::operator*(const double d) const {
-	Matrix64f ret(nrows, ncols);
-	int n = nrows * ncols;
-	for(int i=0; i<n; i++) {
-		ret.data[i] = data[i] * d;
-	}
-	return ret;
-}
-
-Matrix64f Matrix64f::operator/(const double d) const {
-	Matrix64f ret(nrows, ncols);
-	int n = nrows * ncols;
-	for(int i=0; i<n; i++) {
-		ret.data[i] = data[i] / d;
-	}
-	return ret;
-}
-
-
 inline int Matrix64f::rows() const 
 {
     return nrows;
@@ -184,6 +113,19 @@ inline int Matrix64f::rows() const
 inline int Matrix64f::cols() const 
 {
     return ncols;
+}
+
+Matrix64f Matrix64f::submat(int i, int j, int rows, int cols) const
+{
+    massert(i + rows <= nrows && j + cols <= ncols, "Too large sub-matrix size !!");
+
+    Matrix64f A(rows, cols);
+    for(int ii=0; ii<rows; ii++) {
+        for(int jj=0; jj<cols; jj++) {
+            A(ii, jj) = A(i+ii, j+jj);
+        }
+    }
+    return A;
 }
 
 Matrix64f Matrix64f::trans() const {

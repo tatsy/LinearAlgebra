@@ -16,7 +16,7 @@ void Matrix64f::factor_lu(Matrix64f& LU, int* order) const
     LU = (*this);
     for(int i=0; i<n; i++) order[i] = i;
 
-    for(int k=0; k<n; k+=2) {
+    for(int k=0; k<n; k++) {
         // ピボット選択
         double maxval = 0.0;
         int    pivot  = k;
