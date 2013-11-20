@@ -30,6 +30,6 @@ int main(int argc, char** argv) {
 
     double elemb[] = {6.0, 7.0, 9.0};
     Vector64f b(elemb, 3);
-    Matrix64f x = A.solve((Matrix64f)b, FUNOPT_FACTOR_LU);
+    Matrix64f x = A.solve((Matrix64f)b, SOLVER_CG);
     cout << x << endl;
 }

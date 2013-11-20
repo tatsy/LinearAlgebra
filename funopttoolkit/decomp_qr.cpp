@@ -36,7 +36,7 @@ void Matrix64f::factor_qr(Matrix64f& Q, Matrix64f& R) const
 	}
 }
 
-void Matrix64f::solve_qr(Matrix64f& b, Matrix64f& x) const 
+void Matrix64f::solve_qr(const Matrix64f& b, Matrix64f& x) const 
 {
 	massert(nrows == ncols, "Matrix is not square. Cannot factorize.");
 	massert(ncols == b.nrows, "Matrix size is invalid");

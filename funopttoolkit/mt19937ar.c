@@ -44,6 +44,7 @@
 */
 
 #include <stdio.h>
+#define _DLL_EXPORT
 #include "mt19937ar.h"
 
 /* Period parameters */  

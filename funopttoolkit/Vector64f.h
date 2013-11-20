@@ -37,6 +37,9 @@ namespace funopt {
         Vector64f operator+(const Vector64f& v) const;
         Vector64f operator-(const Vector64f& v) const;
 
+        // —”ƒxƒNƒgƒ‹‚Ì¶¬
+        static Vector64f rand(int dim);
+
         int dim() const;
         double norm() const;
         double norm2() const;

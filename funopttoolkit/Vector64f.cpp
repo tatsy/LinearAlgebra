@@ -4,6 +4,7 @@
 #include "Vector64f.h"
 using namespace funopt;
 
+#include "MTRand.h"
 #include "funopt_macros.h"
 
 Vector64f::Vector64f() :
@@ -100,6 +101,16 @@ Vector64f operator/(const Vector64f& v, double s)
         ret(i) = v(i) / s;
     }
     return ret;
+}
+
+Vector64f Vector64f::rand(int dim)
+{
+    Vector64f v(dim);
+    MTRand rand;
+    for(int i=0; i<dim; i++) {
+        v(i) = rand.randReal();
+    }
+    return v;
 }
 
 int Vector64f::dim() const {

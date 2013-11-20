@@ -69,7 +69,7 @@ namespace funopt {
 		Matrix64f inv() const;
 
         // 線形問題を解く
-		Matrix64f solve(Matrix64f& b, int decomp_type=FUNOPT_FACTOR_LU);
+		Matrix64f solve(const Matrix64f& b, SolverType solver_type=SOLVER_LU);
 
         // 固有値を求める
         void eig(Matrix64f& val, Matrix64f& vec) const;
@@ -79,13 +79,16 @@ namespace funopt {
 		void factor_lu(Matrix64f& LU, int* order) const;
 
 		// LU分解により線形問題を解く
-		void solve_lu(Matrix64f& b, Matrix64f& x) const;
+		void solve_lu(const Matrix64f& b, Matrix64f& x) const;
 
 		// QR分解
 		void factor_qr(Matrix64f& Q, Matrix64f& R) const;
 
 		// QR分解により線形問題を解く
-		void solve_qr(Matrix64f& b, Matrix64f& x) const;
+		void solve_qr(const Matrix64f& b, Matrix64f& x) const;
+
+        // CG法により線形問題を解く
+        void solve_cg(const Matrix64f& b, Matrix64f& x) const;
     };
 }
 

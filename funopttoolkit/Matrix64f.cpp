@@ -162,14 +162,21 @@ Matrix64f Matrix64f::inv() const {
 	return B;
 }
 
-Matrix64f Matrix64f::solve(Matrix64f& b, int factor_type)
+Matrix64f Matrix64f::solve(const Matrix64f& b, SolverType solver_type)
 {
     Matrix64f x;
-	if(factor_type == FUNOPT_FACTOR_LU) {
+    switch(solver_type) {
+    case SOLVER_LU:
 	    solve_lu(b, x);
-	}
-	else if(factor_type == FUNOPT_FACTOR_QR) {
+        break;
+
+    case SOLVER_QR:
 		solve_qr(b, x);
+        break;
+
+    case SOLVER_CG:
+        solve_cg(b, x);
+        break;
 	}
     return x;
 }
