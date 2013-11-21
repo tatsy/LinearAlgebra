@@ -5,6 +5,31 @@
 #include "Vector64f.h"
 using namespace funopt;
 
+static void solve_bicg_vec(const Matrix64f& A, const Vector64f& b, Vector64f& x)
+{
+    const int maxiter = 10;
+    const int nrows = A.rows();
+    const int ncols = A.cols();
+    x = Vector64f::rand(ncols);
+
+    Vector64f r = b - A * x;
+    Vector64f p = r;
+    Vector64f q = r;
+    Vector64f s = r;
+    for(int k=0; k<maxiter; k++) {
+        Vector64f ap = A * p;
+        double alph = q.dot(r) / q.dot(ap);
+        x = x + alph * p;
+        Vector64f rold = r;
+        Vector64f sold = s;
+        r = r - alph * ap;
+        s = s - alph * A.trans() * q;
+        double beta = s.dot(r) / sold.dot(rold);
+        p = r + beta * p;
+        q = s + beta * q;
+    }
+}
+
 static void solve_cg_vec (const Matrix64f& A, const Vector64f& b, Vector64f& x)
 {
     const int nrows = A.rows();
@@ -57,7 +82,7 @@ void Matrix64f::solve_cg(const Matrix64f& b, Matrix64f& x) const
             v(j) = b(j, i) * d[j];
         }
         Vector64f u;
-        solve_cg_vec(A, v, u);
+        solve_bicg_vec(A, v, u);
         for(int j=0; j<b.nrows; j++) {
             x(j, i) = u(j) * d[j];
         }
