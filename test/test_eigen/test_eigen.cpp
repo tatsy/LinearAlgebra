@@ -5,6 +5,7 @@ using namespace std;
 using namespace funopt;
 
 int main(int argc, char** argv) {
+    /*
     double elemA[] = {
         1, 2, 3, 4,
         2, 2, 3, 4,
@@ -13,13 +14,27 @@ int main(int argc, char** argv) {
     };
 
     Matrix64f A(elemA, 4, 4);
+    */
 
-    //Matrix64f A = Matrix64f::rand(100, 100);
-    //A = A + A.trans();
+    const int n = 12;
+    Matrix64f A = Matrix64f::rand(n, n);
+    A = A + A.trans();
 
     Matrix64f L, U;
     A.eig(L, U);
 
+    Matrix64f B = U * L * U.trans();
+    double err = 0.0;
+    for(int i=0; i<n; i++) {
+        for(int j=0; j<n; j++) {
+            double d = A(i, j) - B(i, j);
+            err += d * d;
+        }
+    }
+    printf("error = %.15f\n", err);
+    
     cout << L << endl << endl;
     cout << U << endl << endl;
+    cout << B << endl << endl;
+    cout << A << endl << endl;
 }

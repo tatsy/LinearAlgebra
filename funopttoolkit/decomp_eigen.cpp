@@ -1,7 +1,46 @@
+#include <vector>
+#include <algorithm>
+using namespace std;
+
 #define __MAT64F_EXPORT__
 #include "funopt_macros.h"
 #include "Matrix64f.h"
 using namespace funopt;
+
+class abs_comparator {
+public:
+    abs_comparator() {}
+    bool operator()(const double& a, const double& b) const 
+    {
+        return abs(a) > abs(b);
+    }
+};
+
+// ギブンス回転を用いて三重対角行列を対角化
+static void givens_rotate(const Matrix64f& A, Matrix64f& Q, Matrix64f& R)
+{
+    massert(A.rows() == A.cols(), "matrix is not square");
+    const int n = A.rows();
+    Matrix64f I = Matrix64f::eye(n);
+
+    R = A;
+    Q = I;
+    for(int k=0; k<n-1; k++) {
+        Matrix64f G = I;
+        double app = R(k, k);
+        double aqp = R(k+1, k);
+        double r   = sqrt(app * app + aqp * aqp);
+        double c   =  app / r;
+        double s   = -aqp / r;
+        G(k,   k)   = c;
+        G(k,   k+1) = -s;
+        G(k+1, k)   = s;
+        G(k+1, k+1) = c;
+        R = G * R;
+        swap(G(k, k+1), G(k+1, k));
+        Q = Q * G;
+    }
+}
 
 // 行列Aを三重対角行列Tと相似変換Vに分解
 static void tridiag(const Matrix64f& A, Matrix64f& T, Matrix64f& V)
@@ -43,15 +82,17 @@ void Matrix64f::eig(Matrix64f& val, Matrix64f& vec) const
     double tol = 1.0e-20;
     int n = nrows;
 
-    Matrix64f Q, R, I;
+    Matrix64f I;
     I = Matrix64f::eye(n);
 
     Matrix64f T, V;
 	tridiag(*this, T, V);
 
+    // シフト付きQR法
     val = T;
     vec = I;
-    for(int i=0; i<100; i++) {
+    Matrix64f Q, R;
+    for(int it=0; it<10000; it++) {
         double a11 = val(n-2,n-2);
         double a12 = val(n-2,n-1);
         double a21 = val(n-1,n-2);
@@ -62,18 +103,23 @@ void Matrix64f::eig(Matrix64f& val, Matrix64f& vec) const
         double x2 = (a - sqrt(a * a - 4.0 * b)) / 2.0;
         double mu = abs(x1 - a22) < abs(x2 - a22) ? x1 : x2;
         val = val - I * mu;
-        val.factor_qr(Q, R);
+        givens_rotate(val, Q, R);
         val = R * Q + I * mu;
 
         bool is_end = true;
         for(int i=0; i<n-1; i++) {
-            if(abs(val(i, i+1)) > tol || abs(val(i, i+1)) > tol) {
+            if(abs(val(i, i+1)) > tol) {
                 is_end = false;
                 break;
             }
         }
         if(is_end) break;
     }
+
+    vector<double> v(n);
+    for(int i=0; i<n; i++) v[i] = val(i, i);
+    sort(v.begin(), v.end(), abs_comparator());
+    val = Matrix64f::diag(v);
 
     // 三重対角行列から固有ベクトルを求める
     vec = Matrix64f(n, n);
@@ -100,3 +146,5 @@ void Matrix64f::eig(Matrix64f& val, Matrix64f& vec) const
         }
     }
 }
+
+

@@ -1,3 +1,6 @@
+#include <vector>
+using namespace std;
+
 #define __MAT64F_EXPORT__
 #include "Matrix64f.h"
 using namespace funopt;
@@ -76,6 +79,18 @@ Matrix64f Matrix64f::rand(int rows, int cols)
 		}
 	}
 	return ret;
+}
+
+// 対角行列
+Matrix64f Matrix64f::diag(vector<double>& v)
+{
+    const int n = (int)v.size();
+    Matrix64f D(n, n);
+    memset(D.data, 0, sizeof(double) * n * n);
+    for(int i=0; i<n; i++) {
+        D(i, i) = v[i];
+    }
+    return D;
 }
 
 // デストラクタ

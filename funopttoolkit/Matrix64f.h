@@ -8,6 +8,7 @@
 #endif
 
 #include <iostream>
+#include <vector>
 #include <sstream>
 #include <cstring>
 using namespace std;
@@ -39,6 +40,9 @@ namespace funopt {
 
 		// 乱数行列
 		static Matrix64f rand(int rows, int cols);
+
+        // 対角行列
+        static Matrix64f diag(std::vector<double>& v);
 
         // デストラクタ
         ~Matrix64f();
