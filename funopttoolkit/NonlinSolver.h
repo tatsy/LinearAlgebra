@@ -15,13 +15,9 @@ namespace funopt {
         class NONLIN_EXPORT Solver {
         public:
             Solver();
-            Solver(const Solver& s);
-            ~Solver();
 
-            Solver& operator=(const Solver& s);
-
-            Vector64f solve(funcNd* func_ptr, const Vector64f& x0, SolverType type, const int maxiter, const double tol);
-            void solve(funcNd* func_ptr, const Vector64f& x0, Vector64f& x_opt, SolverType type, const int maxiter, const double tol);
+            Vector64f solve(const funcNd& func_ptr, const Vector64f& x0, SolverType type, const int maxiter, const double tol);
+            void solve(const funcNd& func_ptr, const Vector64f& x0, Vector64f& x_opt, SolverType type, const int maxiter, const double tol);
         };
     }
 }

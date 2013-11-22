@@ -38,19 +38,19 @@ namespace funopt {
             return upper;
         }
 
-        void BracketMethod::bracket(const double a, const double b, func1d* f_ptr)
+        void BracketMethod::bracket(const double a, const double b, const func1d& func)
         {
             double ax = a;
             double bx = b;
-            double fa = (*f_ptr)(ax);
-            double fb = (*f_ptr)(bx);
+            double fa = func(ax);
+            double fb = func(bx);
             if(fb > fa) {
                 std::swap(ax, bx);
                 std::swap(fa, fb);
             }
 
             double cx = b + GOLD * (bx - ax);
-            double fc = (*f_ptr)(cx);
+            double fc = func(cx);
             while(fb > fc) {
                 // ‘o‹Èü•âŠÔ
                 double r = (bx - ax) * (fb - fc);
@@ -61,7 +61,7 @@ namespace funopt {
 
                 // ’l‚ÌXV
                 if((bx - u) * (u - cx) > 0.0) {
-                    fu = (*f_ptr)(u);
+                    fu = func(u);
                     if(fu < fc) {
                         ax = bx;
                         bx = u;
@@ -75,22 +75,22 @@ namespace funopt {
                         break;
                     }
                     u  = cx + GOLD * (cx - bx);
-                    fu = (*f_ptr)(u);
+                    fu = func(u);
                 }
                 else if((cx - u) * (u - ulim) > 0.0) {
-                    fu = (*f_ptr)(u);
+                    fu = func(u);
                     if(fu < fc) {
                         shift3(bx, cx, u, u + GOLD * (u - cx));
-                        shift3(fb, fc, fu, (*f_ptr)(u));
+                        shift3(fb, fc, fu, func(u));
                     }
                 }
                 else if((u - ulim) * (ulim - cx) >= 0.0) {
                     u  = ulim;
-                    fu = (*f_ptr)(u);
+                    fu = func(u);
                 }
                 else {
                     u  = cx + GOLD * (cx - bx);
-                    fu = (*f_ptr)(u);
+                    fu = func(u);
                 }
                 shift3(ax, bx, cx, u);
                 shift3(fa, fb, fc, fu); 

@@ -14,7 +14,7 @@ namespace funopt {
 
         public:
             BracketMethod();
-            void bracket(const double a, const double b, func1d* f_ptr);
+            void bracket(const double a, const double b, const func1d& func);
             virtual double get_lower() const;
             virtual double get_mid() const;
             virtual double get_upper() const;

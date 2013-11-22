@@ -5,32 +5,11 @@
 
 namespace funopt {
     namespace nonlin {
-        NelderSimplex::NelderSimplex() :
-            SolverBase()
+        NelderSimplex::NelderSimplex()
         {
         }
 
-        NelderSimplex::NelderSimplex(funcNd* func_ptr) :
-            SolverBase(func_ptr)
-        {
-        }
-
-        NelderSimplex::NelderSimplex(const NelderSimplex& ns) :
-            SolverBase(ns.f_ptr)
-        {
-        }
-
-        NelderSimplex::~NelderSimplex()
-        {
-        }
-
-        NelderSimplex& NelderSimplex::operator=(const NelderSimplex& ns)
-        {
-            this->f_ptr = ns.f_ptr;
-            return *this;
-        }
-
-        void NelderSimplex::solve(const Vector64f& x0, Vector64f& x_opt, const int maxiter, const double tol)
+        void NelderSimplex::solve(const funcNd& func, const Vector64f& x0, Vector64f& x_opt, const int maxiter, const double tol)
         {
             const int n = x0.dim();
 
@@ -52,7 +31,7 @@ namespace funopt {
             // 点における値を評価
             double* fval = new double[n+1];
             for(int j=0; j<=n; j++) {
-                fval[j] = (*f_ptr)(X[j]);
+                fval[j] = func(X[j]);
             }
 
             for(int it=0; it<maxiter; it++) {
@@ -77,16 +56,16 @@ namespace funopt {
                 if(abs(fval[ihi] - fval[ilo]) < tol) break;
 
                 // 最大値を持つ点をアップデート
-                update(X, fval, ihi, -1.0); 
+                update(func, X, fval, ihi, -1.0); 
 
                 // 結果が良ければもっと進む
                 if(fval[ihi] <= fval[ilo]) {
-                    update(X, fval, ihi, 2.0);
+                    update(func, X, fval, ihi, 2.0);
                 }
                 // あまり下がらなかったら少し戻る
                 else if(fval[ihi] >= fval[inhi]) {
                     double fhi = fval[ihi];
-                    update(X, fval, ihi, 0.5);
+                    update(func, X, fval, ihi, 0.5);
 
                     // それでもあまり下がらなければ
                     // 最良点に他の点を近づける
@@ -94,7 +73,7 @@ namespace funopt {
                         for(int j=0; j<=n; j++) {
                             if(j == ilo) continue;
                             X[j] = (X[j] + X[ilo]) * 0.5;
-                            fval[j] = (*f_ptr)(X[j]);
+                            fval[j] = func(X[j]);
                         }
                     }
                 }
@@ -105,7 +84,7 @@ namespace funopt {
             delete[] fval;
         }
 
-        void NelderSimplex::update(Vector64f* xs, double* fs, int ihi, double t)
+        void NelderSimplex::update(const funcNd& func, Vector64f* xs, double* fs, int ihi, double t)
         {
             const int n = xs[0].dim();
             Vector64f x_new = Vector64f::zeros(n);
@@ -114,7 +93,7 @@ namespace funopt {
                 x_new += xs[i];
             }
             x_new   = t * xs[ihi] + (1.0 - t) * x_new / (double)n;
-            double f_new = (*f_ptr)(x_new);
+            double f_new = func(x_new);
             if(f_new < fs[ihi]) {
                 xs[ihi] = x_new;
                 fs[ihi] = f_new;

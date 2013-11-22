@@ -11,7 +11,7 @@ namespace funopt {
         {
         }
 
-        double GoldenSection::minimize(func1d* f_ptr)
+        double GoldenSection::minimize(const func1d& func)
         {
             static const double R = 0.61803399;
             static const double C = 1.0 - R;
@@ -30,15 +30,15 @@ namespace funopt {
                 x2 = bx;
                 x1 = bx - C * (bx - ax);
             }
-            double f1 = (*f_ptr)(x1);
-            double f2 = (*f_ptr)(x2);
+            double f1 = func(x1);
+            double f2 = func(x2);
             while(abs(x3 - x0) > tol * (abs(x1) + abs(x2))) {
                 if(f2 < f1) {
                     shift3(x0, x1, x2, R * x2 + C * x3);
-                    shift2(f1, f2, (*f_ptr)(x2));
+                    shift2(f1, f2, func(x2));
                 } else {
                     shift3(x3, x2, x1, R * x1 + C * x0);
-                    shift2(f2, f1, (*f_ptr)(x1));
+                    shift2(f2, f1, func(x1));
                 }
             }
 

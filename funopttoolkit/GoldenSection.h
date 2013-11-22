@@ -12,7 +12,7 @@ namespace funopt {
 
         public:
             GoldenSection(const double tol=3.0-8);
-            double minimize(func1d* f_ptr);
+            double minimize(const func1d& func);
         };
     }
 }
