@@ -9,4 +9,7 @@
 #include "Matrix64f.h"
 #include "Sparse64f.h"
 
+// ”ñüŒ`Å“K‰»
+#include "NonlinSolver.h"
+
 #endif

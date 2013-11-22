@@ -34,11 +34,14 @@ namespace funopt {
         double& operator()(int i);
         double  operator()(int i) const;
         
-        Vector64f operator+(const Vector64f& v) const;
-        Vector64f operator-(const Vector64f& v) const;
+        Vector64f& operator+=(const Vector64f& v);
+        Vector64f& operator-=(const Vector64f& v);
 
-        // 乱数ベクトルの生成
+        // 乱数ベクトル
         static Vector64f rand(int dim);
+
+        // 零ベクトル
+        static Vector64f zeros(int dim);
 
         int dim() const;
         double norm() const;
@@ -47,6 +50,8 @@ namespace funopt {
     };
 }
 
+VEC64F_DLL_EXPORT funopt::Vector64f operator+(const funopt::Vector64f& v, const funopt::Vector64f& u);
+VEC64F_DLL_EXPORT funopt::Vector64f operator-(const funopt::Vector64f& v, const funopt::Vector64f& u);
 VEC64F_DLL_EXPORT funopt::Vector64f operator*(const funopt::Vector64f& v, double s);
 VEC64F_DLL_EXPORT funopt::Vector64f operator*(double s, const funopt::Vector64f& v);
 VEC64F_DLL_EXPORT funopt::Vector64f operator/(const funopt::Vector64f& v, double s);

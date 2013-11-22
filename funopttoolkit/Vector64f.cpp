@@ -59,23 +59,36 @@ inline double Vector64f::operator()(int i) const {
     return data[i];
 }
 
-Vector64f Vector64f::operator+(const Vector64f& v) const
+Vector64f& Vector64f::operator+=(const Vector64f& v)
 {
-    Vector64f ret(ndim);
     for(int i=0; i<ndim; i++) {
-        ret.data[i] = data[i] + v.data[i];
+        data[i] += v.data[i];
     }
-    return ret;
+    return *this;
 }
 
-Vector64f Vector64f::operator-(const Vector64f& v) const 
+Vector64f& Vector64f::operator-=(const Vector64f& v)
 {
-    Vector64f ret(ndim);
     for(int i=0; i<ndim; i++) {
-        ret.data[i] = data[i] - v.data[i];
+        data[i] -= v.data[i];
     }
-    return ret;
+    return *this;
 }
+
+Vector64f operator+(const Vector64f& v, const Vector64f& u)
+{
+    Vector64f w = v;
+    w += u;
+    return w;
+}
+
+Vector64f operator-(const Vector64f& v, const Vector64f& u)
+{
+    Vector64f w = v;
+    w -= u;
+    return w;
+}
+
 
 Vector64f operator*(const Vector64f& v, double s)
 {
@@ -109,6 +122,15 @@ Vector64f Vector64f::rand(int dim)
     MTRand rand;
     for(int i=0; i<dim; i++) {
         v(i) = rand.randReal();
+    }
+    return v;
+}
+
+Vector64f Vector64f::zeros(int dim)
+{
+    Vector64f v(dim);
+    for(int i=0; i<dim; i++) {
+        v(i) = 0.0;
     }
     return v;
 }
