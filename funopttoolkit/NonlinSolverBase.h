@@ -10,7 +10,8 @@ namespace funopt {
     namespace nonlin {
         // ソルバの種類
         enum SolverType {
-            SOLVER_NELDER_SIMPLEX
+            SOLVER_NELDER_SIMPLEX,
+            SOLVER_POWELL
         };
         
         // ソルバ基底クラス

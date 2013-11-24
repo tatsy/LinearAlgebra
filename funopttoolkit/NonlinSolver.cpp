@@ -1,6 +1,7 @@
 #define __NONLIN_EXPORT__
 #include "NonlinSolver.h"
 #include "NelderSimplex.h"
+#include "Powell.h"
 #include "Vector64f.h"
 
 namespace funopt {
@@ -15,6 +16,11 @@ namespace funopt {
             switch(type) {
             case SOLVER_NELDER_SIMPLEX:
                 base = new NelderSimplex();
+                break;
+
+            case SOLVER_POWELL:
+                base = new Powell();
+                break;
             }
             base->solve(func, x0, x_opt, maxiter, tol);
         }

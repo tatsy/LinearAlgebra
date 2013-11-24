@@ -1,14 +1,8 @@
 #include <iostream>
 using namespace std;
 
+#define __BRACKET_EXPORT__
 #include "BracketMethod.h"
-
-static double sgn(double d)
-{
-    if(d < -1.0e-20) return -1.0;
-    if(d >  1.0e-20) return  1.0;
-    return 0.0;
-}
 
 namespace funopt {
     namespace nonlin {
@@ -119,6 +113,13 @@ namespace funopt {
             a = d;
             b = e;
             c = f;
+        }
+
+        inline double BracketMethod::sgn(double d)
+        {
+            if(d < -1.0e-20) return -1.0;
+            if(d >  1.0e-20) return  1.0;
+            return 0.0;
         }
     }
 }
