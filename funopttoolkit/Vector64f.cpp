@@ -59,6 +59,14 @@ inline double Vector64f::operator()(int i) const {
     return data[i];
 }
 
+Vector64f& Vector64f::operator-()
+{
+    for(int i=0; i<ndim; i++) {
+        data[i] = -data[i];
+    }
+    return *this;
+}
+
 Vector64f& Vector64f::operator+=(const Vector64f& v)
 {
     for(int i=0; i<ndim; i++) {

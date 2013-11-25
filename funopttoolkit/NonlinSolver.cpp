@@ -2,6 +2,7 @@
 #include "NonlinSolver.h"
 #include "NelderSimplex.h"
 #include "Powell.h"
+#include "ConjugateGradient.h"
 #include "Vector64f.h"
 
 namespace funopt {
@@ -20,6 +21,10 @@ namespace funopt {
 
             case SOLVER_POWELL:
                 base = new Powell();
+                break;
+            
+            case SOLVER_CONJUGATE_GRADIENT:
+                base = new ConjugateGradient();
                 break;
             }
             base->solve(func, x0, x_opt, maxiter, tol);

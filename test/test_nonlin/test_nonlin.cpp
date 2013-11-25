@@ -12,18 +12,28 @@ double f(const Vector64f& x)
     return ret;
 }
 
+Vector64f grad(const Vector64f& x)
+{
+    const int n = x.dim();
+    Vector64f ret(n);
+    for(int i=0; i<n; i++) {
+        ret(i) = 2.0 * (x(i) - (i + 1));
+    }
+    return ret;
+}
+
 double g(double x)
 {
     return (x - 1.0) * (x - 3.0);
 }
 
 int main(int argc, char** argv) {
-    nonlin::funcNd func(f);
+    nonlin::funcNd func(f, grad);
 
     nonlin::Solver solver;
     Vector64f x0 = Vector64f::rand(5);
     Vector64f x_opt;
-    solver.solve(func, x0, x_opt, nonlin::SOLVER_POWELL, 200, 1.0e-20);
+    solver.solve(func, x0, x_opt, nonlin::SOLVER_CONJUGATE_GRADIENT, 200, 1.0e-20);
 
     cout << x_opt << endl;
     double f_opt = func(x_opt);

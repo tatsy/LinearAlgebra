@@ -33,7 +33,8 @@ namespace funopt {
 
         double& operator()(int i);
         double  operator()(int i) const;
-        
+
+        Vector64f& operator-();
         Vector64f& operator+=(const Vector64f& v);
         Vector64f& operator-=(const Vector64f& v);
 

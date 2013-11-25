@@ -9,10 +9,10 @@ namespace funopt {
 
         private:
             double (*_func)(const Vector64f&);
-            double (*_grad)(const Vector64f&);
+            Vector64f (*_grad)(const Vector64f&);
 
         public:
-            funcNd(double (*func)(const Vector64f&), double (*grad)(const Vector64f&) = 0) :
+            funcNd(double (*func)(const Vector64f&), Vector64f (*grad)(const Vector64f&) = 0) :
                 _func(func),
                 _grad(grad)
             {
@@ -36,7 +36,7 @@ namespace funopt {
                 return _func(x);
             }
 
-            double grad(const Vector64f& x) const
+            Vector64f grad(const Vector64f& x) const
             {
                 return _grad(x);
             }

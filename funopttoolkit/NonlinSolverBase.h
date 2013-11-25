@@ -11,7 +11,8 @@ namespace funopt {
         // ソルバの種類
         enum SolverType {
             SOLVER_NELDER_SIMPLEX,
-            SOLVER_POWELL
+            SOLVER_POWELL,
+            SOLVER_CONJUGATE_GRADIENT
         };
         
         // ソルバ基底クラス
