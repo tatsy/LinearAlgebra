@@ -16,10 +16,9 @@ int main(int argc, char** argv) {
     Matrix64f A(elemA, 4, 4);
     */
 
-    const int n = 12;
+    const int n = 15;
     Matrix64f A = Matrix64f::rand(n, n);
     A = A + A.trans();
-
     Matrix64f L, U;
     A.eig(L, U);
 
@@ -34,7 +33,7 @@ int main(int argc, char** argv) {
     printf("error = %.15f\n", err);
     
     cout << L << endl << endl;
-    cout << U << endl << endl;
-    cout << B << endl << endl;
-    cout << A << endl << endl;
+    //cout << U << endl << endl;
+    //cout << B << endl << endl;
+    //cout << A << endl << endl;
 }

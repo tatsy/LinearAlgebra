@@ -137,7 +137,7 @@ Matrix64f Matrix64f::submat(int i, int j, int rows, int cols) const
     Matrix64f A(rows, cols);
     for(int ii=0; ii<rows; ii++) {
         for(int jj=0; jj<cols; jj++) {
-            A(ii, jj) = A(i+ii, j+jj);
+            A(ii, jj) = (*this)(i+ii, j+jj);
         }
     }
     return A;

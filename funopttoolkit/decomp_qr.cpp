@@ -11,26 +11,26 @@ void Matrix64f::factor_qr(Matrix64f& Q, Matrix64f& R) const
 {
 	massert(nrows == ncols, "Matrix is not square. Cannot factorize.");
 
-    double nx;
 	int n = nrows;
 	R = (*this);
 	Q = Matrix64f::eye(n);
 	for(int k=0; k<n-1; k++) {
-		Matrix64f x(n - k, 1);
-		for(int i=0; i<n - k; i++) {
-			x(i, 0) = R(k+i, k);
+		Matrix64f x = Matrix64f::zeros(n, 1);
+		for(int i=k; i<n; i++) {
+			x(i, 0) = R(i, k);
 		}
 
-		x(0, 0) -= x.norm();
+        double xi = 0.0;
+        for(int i=k+1; i<n; i++) {
+            xi += x(i, 0) * x(i, 0);
+        }
+        double nx = sqrt(xi + x(k, 0) * x(k, 0));
+        xi = xi / (abs(x(k, 0)) + nx);
+
+        double sgn = x(k, 0) > 0.0 ? 1.0 : -1.0;
+		x(k, 0) = -sgn * xi;
         nx = x.norm();
-		Matrix64f subP = Matrix64f::eye(n - k) - (x * x.trans()) / (0.5 * nx * nx);
-		Matrix64f P = Matrix64f::eye(n);
-		for(int i=0; i<n-k; i++) {
-			for(int j=0; j<n-k; j++) {
-				P(k+i, k+j) = subP(i, j);
-			}
-		}
-
+		Matrix64f P = Matrix64f::eye(n) - (x * x.trans()) / (0.5 * nx * nx);
 		R = P * R;
 		Q = Q * P;
 	}
