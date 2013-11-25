@@ -37,6 +37,8 @@ namespace funopt {
         Vector64f& operator-();
         Vector64f& operator+=(const Vector64f& v);
         Vector64f& operator-=(const Vector64f& v);
+        Vector64f& operator*=(double s);
+        Vector64f& operator/=(double s);
 
         // —”ƒxƒNƒgƒ‹
         static Vector64f rand(int dim);
@@ -48,6 +50,7 @@ namespace funopt {
         double norm() const;
         double norm2() const;
         double dot(const Vector64f& v) const;
+        Matrix64f tensor(const Vector64f& v) const;
     };
 }
 

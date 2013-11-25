@@ -3,6 +3,7 @@
 #include "NelderSimplex.h"
 #include "Powell.h"
 #include "ConjugateGradient.h"
+#include "QuasiNewton.h"
 #include "Vector64f.h"
 
 namespace funopt {
@@ -25,6 +26,10 @@ namespace funopt {
             
             case SOLVER_CONJUGATE_GRADIENT:
                 base = new ConjugateGradient();
+                break;
+
+            case SOLVER_QUASI_NEWTON:
+                base = new QuasiNewton();
                 break;
             }
             base->solve(func, x0, x_opt, maxiter, tol);

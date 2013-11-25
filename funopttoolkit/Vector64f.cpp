@@ -4,6 +4,7 @@
 #include "Vector64f.h"
 using namespace funopt;
 
+#include "Matrix64f.h"
 #include "MTRand.h"
 #include "funopt_macros.h"
 
@@ -97,15 +98,19 @@ Vector64f operator-(const Vector64f& v, const Vector64f& u)
     return w;
 }
 
+Vector64f& Vector64f::operator*=(double s)
+{
+    for(int i=0; i<ndim; i++) {
+        data[i] *= s;
+    }
+    return *this;
+}
 
 Vector64f operator*(const Vector64f& v, double s)
 {
-	const int ndim = v.dim();
-    Vector64f ret(v.dim());
-    for(int i=0; i<ndim; i++) {
-        ret(i) = v(i) * s;
-    }
-    return ret;
+    Vector64f ret = v;
+    ret *= s;
+    return v;
 }
 
 Vector64f operator*(double s, const Vector64f& v)
@@ -113,14 +118,19 @@ Vector64f operator*(double s, const Vector64f& v)
 	return v * s;
 }
 
-Vector64f operator/(const Vector64f& v, double s)
+Vector64f& Vector64f::operator/=(double s)
 {
     massert(s != 0.0, "zero division !");
-	const int ndim = v.dim();
-    Vector64f ret(ndim);
     for(int i=0; i<ndim; i++) {
-        ret(i) = v(i) / s;
+        data[i] /= s;
     }
+    return *this;
+}
+
+Vector64f operator/(const Vector64f& v, double s)
+{
+    Vector64f ret = v;
+    ret /= s;
     return ret;
 }
 
@@ -148,15 +158,7 @@ int Vector64f::dim() const {
 }
 
 double Vector64f::norm() const {
-    return sqrt(norm2());
-}
-
-double Vector64f::norm2() const {
-    double ret = 0.0;
-    for(int i=0; i<ndim; i++) {
-        ret += (*this)(i) * (*this)(i);
-    }
-    return ret;
+    return sqrt(dot(*this));
 }
 
 double Vector64f::dot(const Vector64f& v) const
@@ -166,6 +168,19 @@ double Vector64f::dot(const Vector64f& v) const
     double ret = 0.0;
     for(int i=0; i<ndim; i++) {
         ret += data[i] * v.data[i];
+    }
+    return ret;
+}
+
+Matrix64f Vector64f::tensor(const Vector64f& v) const
+{
+    int n = ndim;
+    int m = v.ndim;
+    Matrix64f ret(n, m);
+    for(int i=0; i<n; i++) {
+        for(int j=0; j<m; j++) {
+            ret(i, j) = data[i] * v.data[j];
+        }
     }
     return ret;
 }

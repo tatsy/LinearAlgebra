@@ -12,7 +12,8 @@ namespace funopt {
         enum SolverType {
             SOLVER_NELDER_SIMPLEX,
             SOLVER_POWELL,
-            SOLVER_CONJUGATE_GRADIENT
+            SOLVER_CONJUGATE_GRADIENT,
+            SOLVER_QUASI_NEWTON
         };
         
         // ソルバ基底クラス
