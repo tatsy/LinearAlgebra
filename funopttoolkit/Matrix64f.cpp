@@ -130,6 +130,24 @@ inline int Matrix64f::cols() const
     return ncols;
 }
 
+Vector64f Matrix64f::row(int i) const
+{
+    Vector64f v(ncols);
+    for(int j=0; j<ncols; j++) {
+        v(j) = (*this)(i, j);
+    }
+    return v;
+}
+
+Vector64f Matrix64f::col(int j) const
+{
+    Vector64f v(nrows);
+    for(int i=0; i<nrows; i++) {
+        v(i) = (*this)(i, j);
+    }
+    return v;
+}
+
 Matrix64f Matrix64f::submat(int i, int j, int rows, int cols) const
 {
     massert(i + rows <= nrows && j + cols <= ncols, "Too large sub-matrix size !!");

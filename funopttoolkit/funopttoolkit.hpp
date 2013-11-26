@@ -12,4 +12,7 @@
 // 非線形最適化
 #include "NonlinSolver.h"
 
+// 線形計画
+#include "LinprogSolver.h"
+
 #endif

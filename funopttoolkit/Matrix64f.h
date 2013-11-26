@@ -57,6 +57,9 @@ namespace funopt {
         int rows() const;
         int cols() const;
 
+        Vector64f row(int i) const;
+        Vector64f col(int j) const;
+
         // •”•ªs—ñ‚Ìæ‚èo‚µ
         Matrix64f submat(int i, int j, int rows, int cols) const;
 
