@@ -46,6 +46,12 @@ namespace funopt {
         // 零ベクトル
         static Vector64f zeros(int dim);
 
+        // 要素が1のみのベクトル
+        static Vector64f ones(int dim);
+
+        // 対角行列として扱う
+        Matrix64f asDiag() const;
+
         int dim() const;
         double norm() const;
         double norm2() const;
@@ -58,7 +64,10 @@ VEC64F_DLL_EXPORT funopt::Vector64f operator+(const funopt::Vector64f& v, const 
 VEC64F_DLL_EXPORT funopt::Vector64f operator-(const funopt::Vector64f& v, const funopt::Vector64f& u);
 VEC64F_DLL_EXPORT funopt::Vector64f operator*(const funopt::Vector64f& v, double s);
 VEC64F_DLL_EXPORT funopt::Vector64f operator*(double s, const funopt::Vector64f& v);
+VEC64F_DLL_EXPORT funopt::Vector64f operator*(const funopt::Vector64f& v, const funopt::Vector64f& u);
 VEC64F_DLL_EXPORT funopt::Vector64f operator/(const funopt::Vector64f& v, double s);
+VEC64F_DLL_EXPORT funopt::Vector64f operator/(double s, const funopt::Vector64f& v);
+VEC64F_DLL_EXPORT funopt::Vector64f operator/(const funopt::Vector64f& v, const funopt::Vector64f& u);
 
 VEC64F_DLL_EXPORT ostream& operator<<(ostream& os, const funopt::Vector64f& v);
 

@@ -2,6 +2,7 @@
 #include "Matrix64f.h"
 
 #include "LinprogSimplex.h"
+#include "PrimalDualInterior.h"
 
 #define __LINPROG_EXPORT__
 #include "LinprogSolver.h"
@@ -33,6 +34,10 @@ namespace funopt {
             switch(type) {
             case SOLVER_SIMPLEX:
                 base = new Simplex();
+                break;
+
+            case SOLVER_PRIMAL_DUAL:
+                base = new PrimalDualInterior();
                 break;
             }
             base->solve(c, A, b);

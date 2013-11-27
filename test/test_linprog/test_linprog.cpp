@@ -14,7 +14,7 @@ int main(int argc, char** argv) {
     Vector64f b(elemb, 3);
 
     linprog::Solver solver;
-    solver.solve(c, A, b, linprog::SOLVER_SIMPLEX);
+    solver.solve(c, A, b, linprog::SOLVER_PRIMAL_DUAL);
     cout << solver.getXMin() << endl;
     cout << solver.getFMin() << endl;
 }

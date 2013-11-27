@@ -15,7 +15,8 @@ namespace funopt {
 
     namespace linprog {
         enum SolverType {
-            SOLVER_SIMPLEX
+            SOLVER_SIMPLEX,
+            SOLVER_PRIMAL_DUAL
         };
 
         class LINPROG_EXPORT Solver {

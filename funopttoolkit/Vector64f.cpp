@@ -110,12 +110,24 @@ Vector64f operator*(const Vector64f& v, double s)
 {
     Vector64f ret = v;
     ret *= s;
-    return v;
+    return ret;
 }
 
 Vector64f operator*(double s, const Vector64f& v)
 {
 	return v * s;
+}
+
+Vector64f operator*(const Vector64f& v, const Vector64f& u)
+{
+    massert(v.dim() == u.dim(), "dimension is different");
+
+    const int n = v.dim();
+    Vector64f ret(n);
+    for(int i=0; i<n; i++) {
+        ret(i) = v(i) * u(i);
+    }
+    return ret;
 }
 
 Vector64f& Vector64f::operator/=(double s)
@@ -131,6 +143,29 @@ Vector64f operator/(const Vector64f& v, double s)
 {
     Vector64f ret = v;
     ret /= s;
+    return ret;
+}
+
+Vector64f operator/(double s, const Vector64f& v)
+{
+    const int n = v.dim();
+    Vector64f ret(n);
+    for(int i=0; i<n; i++) {
+        ret(i) = s / v(i);
+    }
+    return ret;
+}
+
+
+Vector64f operator/(const Vector64f& v, const Vector64f& u)
+{
+    massert(v.dim() == u.dim(), "dimension is different");
+
+    const int n = v.dim();
+    Vector64f ret(n);
+    for(int i=0; i<n; i++) {
+        ret(i) = v(i) / u(i);
+    }
     return ret;
 }
 
@@ -151,6 +186,24 @@ Vector64f Vector64f::zeros(int dim)
         v(i) = 0.0;
     }
     return v;
+}
+
+Vector64f Vector64f::ones(int dim)
+{
+    Vector64f v(dim);
+    for(int i=0; i<dim; i++) {
+        v(i) = 1.0;
+    }
+    return v;
+}
+
+Matrix64f Vector64f::asDiag() const
+{
+    Matrix64f D = Matrix64f::zeros(ndim, ndim);
+    for(int i=0; i<ndim; i++) {
+        D(i, i) = data[i];
+    }
+    return D;
 }
 
 int Vector64f::dim() const {

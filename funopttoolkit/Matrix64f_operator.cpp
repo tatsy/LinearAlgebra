@@ -46,7 +46,7 @@ Vector64f operator*(const Matrix64f& A, const Vector64f& v)
     massert(A.cols() == v.dim(), "Matrix and vector size is invalid");
     int nrows = A.rows();
     int ncols = A.cols();
-    Vector64f ret(v.dim());
+    Vector64f ret(nrows);
     for(int i=0; i<nrows; i++) {
         double val = 0.0;
         for(int j=0; j<ncols; j++) {
