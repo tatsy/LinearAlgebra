@@ -1,11 +1,11 @@
+#define __LINPROG_EXPORT__
+#include "LinprogSolver.h"
+
 #include "Vector64f.h"
 #include "Matrix64f.h"
 
 #include "LinprogSimplex.h"
 #include "PrimalDualInterior.h"
-
-#define __LINPROG_EXPORT__
-#include "LinprogSolver.h"
 
 namespace funopt {
     namespace linprog {

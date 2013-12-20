@@ -28,10 +28,10 @@ void Matrix64f::factor_lu(Matrix64f& LU, int* order) const
         }
 
         // s‚Ì“ü‚ê‘Ö‚¦
-        swap(order[k], order[pivot]);
+        std::swap(order[k], order[pivot]);
         if(pivot != k) {
             for(int j=0; j<n; j++) {
-                swap(LU(k, j), LU(pivot, j));
+                std::swap(LU(k, j), LU(pivot, j));
             }
         }
 

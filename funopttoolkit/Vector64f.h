@@ -10,7 +10,6 @@
 #include <iostream>
 #include <sstream>
 #include <cstring>
-using namespace std;
 
 namespace funopt {
     class Matrix64f;
@@ -69,6 +68,6 @@ VEC64F_DLL_EXPORT funopt::Vector64f operator/(const funopt::Vector64f& v, double
 VEC64F_DLL_EXPORT funopt::Vector64f operator/(double s, const funopt::Vector64f& v);
 VEC64F_DLL_EXPORT funopt::Vector64f operator/(const funopt::Vector64f& v, const funopt::Vector64f& u);
 
-VEC64F_DLL_EXPORT ostream& operator<<(ostream& os, const funopt::Vector64f& v);
+VEC64F_DLL_EXPORT std::ostream& operator<<(std::ostream& os, const funopt::Vector64f& v);
 
 #endif

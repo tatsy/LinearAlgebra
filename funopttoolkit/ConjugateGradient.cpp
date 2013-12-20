@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "ConjugateGradient.h"
 
 namespace funopt {
@@ -30,9 +32,9 @@ namespace funopt {
 
                 g = func.grad(x);
                 double test = 0.0;
-                double den = max(abs(fx), 1.0);
+                double den = std::max(abs(fx), 1.0);
                 for(int j=0; j<n; j++) {
-                    double temp = abs(g(j)) * max(abs(x(j)), 1.0) / den;
+                    double temp = abs(g(j)) * std::max(abs(x(j)), 1.0) / den;
                     if(temp > test) test = temp;
                 }
 

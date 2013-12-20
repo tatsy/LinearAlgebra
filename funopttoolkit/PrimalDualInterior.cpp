@@ -1,5 +1,6 @@
-#include "PrimalDualInterior.h"
+#include <iostream>
 
+#include "PrimalDualInterior.h"
 #include "Matrix64f.h"
 
 namespace funopt {
@@ -90,8 +91,8 @@ namespace funopt {
                     }
                 }
 
-                alpha_p = min(alpha_p * SIGMA, 1.0);
-                alpha_d = min(alpha_d * SIGMA, 1.0);
+                alpha_p = std::min(alpha_p * SIGMA, 1.0);
+                alpha_d = std::min(alpha_d * SIGMA, 1.0);
 
                 x += alpha_p * dx;
                 z += alpha_d * dz;

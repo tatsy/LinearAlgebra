@@ -11,7 +11,6 @@
 #include <vector>
 #include <sstream>
 #include <cstring>
-using namespace std;
 
 #include "funopt_enum.h"
 #include "matrix_enums.h"
@@ -99,7 +98,7 @@ namespace funopt {
     };
 }
 
-MAT64F_DLL_EXPORT ostream& operator<<(ostream& os, const funopt::Matrix64f& m);
+MAT64F_DLL_EXPORT std::ostream& operator<<(std::ostream& os, const funopt::Matrix64f& m);
 
 
 // ‰‰ŽZŽq’è‹`

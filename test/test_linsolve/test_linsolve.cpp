@@ -4,7 +4,7 @@
 #include <vector>
 using namespace std;
 
-#include "../../funopttoolkit/funopttoolkit.hpp"
+#include "funopttoolkit.hpp"
 using namespace funopt;
 
 int main(int argc, char** argv) {

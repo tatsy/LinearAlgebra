@@ -26,7 +26,7 @@ namespace funopt {
             Vector64f g = func.grad(x);
             Vector64f e = -g;
             double sum = x.norm();
-            double stpmax = STPMX * max(sum, (double)n);
+            double stpmax = STPMX * std::max(sum, (double)n);
             for(int it=0; it<maxiter; it++) {
                 linsearch(x, fx, g, e, xnew, fret, stpmax, check, func);
                 fx = fret;
@@ -35,7 +35,7 @@ namespace funopt {
 
                 double test = 0.0;
                 for(int i=0; i<n; i++) {
-                    double temp = abs(e(i)) / max(abs(x(i)), 1.0);
+                    double temp = abs(e(i)) / std::max(abs(x(i)), 1.0);
                     if(temp > test) {
                         test = temp;
                     }
@@ -49,9 +49,9 @@ namespace funopt {
                 g = func.grad(x);
 
                 test = 0.0;
-                double den = max(abs(fret), 1.0);
+                double den = std::max(abs(fret), 1.0);
                 for(int i=0; i<n; i++) {
-                    double temp = abs(g(i)) * max(abs(x(i)), 1.0) / den;
+                    double temp = abs(g(i)) * std::max(abs(x(i)), 1.0) / den;
                     if(temp > test) test = temp;
                 }
 
@@ -94,7 +94,7 @@ namespace funopt {
 
             double test = 0.0;
             for(int i=0; i<n; i++) {
-                double temp = abs(p(i)) / max(abs(xold(i)), 1.0);
+                double temp = abs(p(i)) / std::max(abs(xold(i)), 1.0);
                 if(temp > test) {
                     test = temp;
                 }
@@ -140,7 +140,7 @@ namespace funopt {
                 }
                 alam2 = alam;
                 f2    = f;
-                alam  = max(tmplam, 0.1 * alam);
+                alam  = std::max(tmplam, 0.1 * alam);
             }
         }
     }

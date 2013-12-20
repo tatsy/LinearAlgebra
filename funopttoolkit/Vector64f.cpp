@@ -238,7 +238,7 @@ Matrix64f Vector64f::tensor(const Vector64f& v) const
     return ret;
 }
 
-ostream& operator<<(ostream& os, const Vector64f& v)
+std::ostream& operator<<(std::ostream& os, const Vector64f& v)
 {
 	os << "[ ";
     for(int i=0; i<v.dim(); i++) {
